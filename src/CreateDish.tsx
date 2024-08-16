@@ -4,21 +4,17 @@ import { generateClient } from "aws-amplify/data";
 import { Authenticator } from '@aws-amplify/ui-react'
 import { Menu, MenuItem, View, Flex } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css'
-import CreateDish from "./CreateDish";
-import { useAuthenticator } from '@aws-amplify/ui-react';
 import {
     BrowserRouter as Router,
     Route,
-    Routes,
-    Link
+    Routes
 } from "react-router-dom";
 
 
 const client = generateClient<Schema>();
 
-function Home() {
+function CreateDish() {
   const [todos, setTodos] = useState<Array<Schema["Dishes"]["type"]>>([]);
-  const { user } = useAuthenticator((context) => [context.user]);
 
   useEffect(() => {
     client.models.Dishes.observeQuery().subscribe({
@@ -41,56 +37,42 @@ function Home() {
 
   return (
     
+    <Authenticator hideSignUp>
+      {({ signOut, user }) => (
     <main>
-<Flex
+
+        <Flex
   direction="row">
         <View width="4rem">
             <Menu>
-                <MenuItem>{user?.username}</MenuItem>
-                <MenuItem>
-                <Link to="/createdish">Create Dish</Link>                    
-                </MenuItem>
+                <MenuItem>Option 1</MenuItem>
+                <MenuItem>Option 2</MenuItem>
                 <MenuItem>Option 3</MenuItem>
             </Menu>
         </View>
         <h1>MY DIET ASSISTANT</h1>
         </Flex>
-
-        {user.userId}
+        {user?.userId}
+        {user?.signInDetails?.loginId}
         <button onClick={() => createTodo(user?.userId!)}>New Dish</button>
       <ul>
         {todos.map((todo) => (
           <li onClick={() => deleteTodo(todo.owner,todo.compositesortkey)} key={todo.createdAt}>{todo.dishname}</li>
         ))}
       </ul>
-
       <div>
+        🥳 App successfully hosted. Try creating a new todo.
+        <br />
+        <a href="https://docs.amplify.aws/react/start/quickstart/#make-frontend-updates">
+          Review next step of this tutorial.
+        </a>
       </div>
+      <button onClick={signOut}>Sign out</button>
     </main>
+        
+    )}
+    </Authenticator>
   );
 }
 
-function App() {
-    return(
-    <Authenticator hideSignUp>
-      {({ signOut, user }) => (
-
-<div>
-
-<Router>
-    <Routes>        
-        <Route path="/" element={<Home />} />
-        <Route path="/createdish" element={<CreateDish />} />
-    </Routes>
-</Router>
-
-<button onClick={signOut}>Sign out</button>
-
-
-</div>
-
-      )}
-    </Authenticator>);
-}
-
-export default App;
+export default CreateDish;

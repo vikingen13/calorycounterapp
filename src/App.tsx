@@ -18,7 +18,7 @@ const client = generateClient<Schema>();
 
 function Home() {
   const [todos, setTodos] = useState<Array<Schema["Dishes"]["type"]>>([]);
-  //const { user } = useAuthenticator((context) => [context.user]);
+  const { user } = useAuthenticator((context) => [context.user]);
 
   useEffect(() => {
     client.models.Dishes.observeQuery().subscribe({
@@ -46,6 +46,7 @@ function Home() {
   direction="row">
         <View width="4rem">
             <Menu>
+                <MenuItem>{user?.username}</MenuItem>
                 <MenuItem>
                 <Link to="/createdish">Create Dish</Link>                    
                 </MenuItem>
@@ -55,6 +56,8 @@ function Home() {
         <h1>MY DIET ASSISTANT</h1>
         </Flex>
 
+        {user.userId}
+        <button onClick={() => createTodo(user?.userId!)}>New Dish</button>
       <ul>
         {todos.map((todo) => (
           <li onClick={() => deleteTodo(todo.owner,todo.compositesortkey)} key={todo.createdAt}>{todo.dishname}</li>
@@ -69,6 +72,8 @@ function Home() {
 
 function App() {
     return(
+    <Authenticator hideSignUp>
+      {({ signOut, user }) => (
 
 <div>
 
@@ -85,5 +90,7 @@ function App() {
 </div>
 
       )}
+    </Authenticator>);
+}
 
 export default App;

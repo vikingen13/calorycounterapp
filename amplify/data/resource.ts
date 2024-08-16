@@ -12,13 +12,15 @@ const schema = a.schema({
       mealType: a.enum(['BREAKFAST','LUNCH','DINNER','SNACK']),
     })
     .identifier(['owner','compositesortkey'])
-    
 });
 
 export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({
   schema,
+  authorizationModes: {
+    defaultAuthorizationMode: 'apiKey',
+  },
 });
 
 /*== STEP 2 ===============================================================

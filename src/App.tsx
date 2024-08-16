@@ -48,7 +48,7 @@ function Home() {
             <Menu>
                 <MenuItem>{user?.username}</MenuItem>
                 <MenuItem>
-                <Link to="/createdish">Create Dish</Link>                    
+                    <Link to="/createdish">Create Dish</Link>                    
                 </MenuItem>
                 <MenuItem>Option 3</MenuItem>
             </Menu>
@@ -73,7 +73,7 @@ function Home() {
 function App() {
     return(
     <Authenticator hideSignUp>
-      {({ signOut, user }) => (
+      {({ signOut }) => (
 
 <div>
 

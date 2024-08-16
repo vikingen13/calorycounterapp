@@ -46,7 +46,6 @@ function Home() {
   direction="row">
         <View width="4rem">
             <Menu>
-                <MenuItem>{user?.username}</MenuItem>
                 <MenuItem>
                 <Link to="/createdish">Create Dish</Link>                    
                 </MenuItem>

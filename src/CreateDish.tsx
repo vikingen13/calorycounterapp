@@ -4,12 +4,6 @@ import { generateClient } from "aws-amplify/data";
 import { Authenticator } from '@aws-amplify/ui-react'
 import { Menu, MenuItem, View, Flex } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css'
-import {
-    BrowserRouter as Router,
-    Route,
-    Routes
-} from "react-router-dom";
-
 
 const client = generateClient<Schema>();
 

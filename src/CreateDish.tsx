@@ -2,13 +2,32 @@ import { useEffect, useState } from "react";
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { Authenticator } from '@aws-amplify/ui-react'
-import { Menu, MenuItem, View, Flex } from '@aws-amplify/ui-react';
+import { Menu,  View, Flex } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css'
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import { TextField,FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { DatePicker } from "@mui/x-date-pickers";
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import {
+    Link
+} from "react-router-dom";
+import dayjs from 'dayjs';
+import { StorageManager, StorageImage } from '@aws-amplify/ui-react-storage';
+import '@aws-amplify/ui-react/styles.css';
+
 
 const client = generateClient<Schema>();
+const file = document.getElementById("file");
+const upload = document.getElementById("upload");
+
 
 function CreateDish() {
   const [todos, setTodos] = useState<Array<Schema["Dishes"]["type"]>>([]);
+  const [image, setImage] = useState<string>();
 
   useEffect(() => {
     client.models.Dishes.observeQuery().subscribe({
@@ -34,34 +53,68 @@ function CreateDish() {
     <Authenticator hideSignUp>
       {({ signOut, user }) => (
     <main>
-
-        <Flex
+<Flex direction="column">
+<Flex
   direction="row">
         <View width="4rem">
             <Menu>
-                <MenuItem>Option 1</MenuItem>
-                <MenuItem>Option 2</MenuItem>
+                <MenuItem>{user?.username}</MenuItem>
+                <MenuItem>
+                    <Link to="/createdish">Create Dish</Link>                    
+                </MenuItem>
                 <MenuItem>Option 3</MenuItem>
             </Menu>
         </View>
         <h1>MY DIET ASSISTANT</h1>
         </Flex>
-        {user?.userId}
-        {user?.signInDetails?.loginId}
-        <button onClick={() => createTodo(user?.userId!)}>New Dish</button>
-      <ul>
-        {todos.map((todo) => (
-          <li onClick={() => deleteTodo(todo.owner,todo.compositesortkey)} key={todo.createdAt}>{todo.dishname}</li>
-        ))}
-      </ul>
-      <div>
-        🥳 App successfully hosted. Try creating a new todo.
-        <br />
-        <a href="https://docs.amplify.aws/react/start/quickstart/#make-frontend-updates">
-          Review next step of this tutorial.
-        </a>
-      </div>
-      <button onClick={signOut}>Sign out</button>
+
+        <TextField id="dishname" label="dish name" variant="standard" />
+        {!image &&
+        
+        <StorageManager
+        acceptedFileTypes={['image/*']}
+        path={({ identityId }) => `dishPictures/${identityId}/`}
+        maxFileCount={1}
+        onUploadSuccess={({ key }) => {
+            setImage(key);
+        }}
+        />
+        }
+
+        {image &&
+        <StorageImage
+            alt="protected image"
+            path={() => `${image}`}
+        />
+        }
+
+<TextField id="calories" label="calories" variant="standard" />
+<TextField id="description" label="description" variant="standard" multiline
+          rows={4}/>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+
+<DatePicker label="Basic date picker"   defaultValue={dayjs()}/>
+</LocalizationProvider>
+<FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+        <InputLabel id="demo-simple-select-standard-label">Age</InputLabel>
+        <Select
+          labelId="demo-simple-select-standard-label"
+          id="demo-simple-select-standard"
+          value={10}          
+          label="Time"
+        >
+          <MenuItem value="">
+          </MenuItem>
+          <MenuItem value={10}>Ten</MenuItem>
+          <MenuItem value={20}>Twenty</MenuItem>
+          <MenuItem value={30}>Thirty</MenuItem>
+        </Select>
+      </FormControl>
+<button onClick={() => createTodo(user?.userId!)}>Add Dish</button>
+
+</Flex>
+
+
     </main>
         
     )}

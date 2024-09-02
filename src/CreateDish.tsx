@@ -21,28 +21,17 @@ import '@aws-amplify/ui-react/styles.css';
 
 
 const client = generateClient<Schema>();
-const file = document.getElementById("file");
-const upload = document.getElementById("upload");
-
 
 function CreateDish() {
-  const [todos, setTodos] = useState<Array<Schema["Dishes"]["type"]>>([]);
   const [image, setImage] = useState<string>();
 
   useEffect(() => {
-    client.models.Dishes.observeQuery().subscribe({
-      next: (data) => setTodos([...data.items]),
-    });
   }, []);
 
   function createTodo(userId:string) {
     client.models.Dishes.create({ owner: userId, compositesortkey:generateCompositeSortKey('20240816', 'LUNCH'), dishname: window.prompt("Todo content") });
   }
-
     
-  function deleteTodo(owner:string, compositesortkey: string) {
-    client.models.Dishes.delete({ owner, compositesortkey })
-  }
 
   function generateCompositeSortKey(mealdate:string, mealType:string) {
     return mealdate + '#' + mealType +'#' + Date.now();
@@ -51,7 +40,7 @@ function CreateDish() {
   return (
     
     <Authenticator hideSignUp>
-      {({ signOut, user }) => (
+      {({ user }) => (
     <main>
 <Flex direction="column">
 <Flex

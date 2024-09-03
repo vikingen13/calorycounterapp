@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { Authenticator } from '@aws-amplify/ui-react'
-import { Menu,  View, Flex } from '@aws-amplify/ui-react';
+import { Flex } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css'
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -12,9 +12,6 @@ import { TextField,FormControl, InputLabel, Select, MenuItem } from '@mui/materi
 import { DatePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import {
-    Link
-} from "react-router-dom";
 import dayjs from 'dayjs';
 import { StorageManager, StorageImage } from '@aws-amplify/ui-react-storage';
 import '@aws-amplify/ui-react/styles.css';

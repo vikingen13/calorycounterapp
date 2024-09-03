@@ -16,6 +16,8 @@ import RestoreIcon from '@mui/icons-material/Restore';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Header from './components/Header'
+import Paper from '@mui/material/Paper';
+
 
 
 
@@ -48,6 +50,8 @@ function Home() {
   return (
     
     <main>
+
+
 <Flex
   direction="row">
       <Header />
@@ -60,9 +64,6 @@ function Home() {
           <li onClick={() => deleteTodo(todo.owner,todo.compositesortkey)} key={todo.createdAt}>{todo.dishname}</li>
         ))}
       </ul>
-
-      <div>
-      </div>
     </main>
   );
 }
@@ -81,7 +82,7 @@ function App() {
         <Route path="/createdish" element={<CreateDish />} />
     </Routes>
 </Router>
-
+<Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
 <BottomNavigation
   showLabels
   value={"Recents"}
@@ -90,6 +91,7 @@ function App() {
   <BottomNavigationAction label="Add Dish" icon={<FavoriteIcon />} href="/createdish" />
   <BottomNavigationAction label="Sign Out" icon={<LocationOnIcon />} onClick={signOut}/>
 </BottomNavigation>
+</Paper>
 </div>
 
       )}

@@ -85,9 +85,6 @@ function App() {
 <BottomNavigation
   showLabels
   value={"Recents"}
-  onChange={(event, newValue) => {
-    //setValue(newValue);
-  }}
 >
   <BottomNavigationAction label="Profile" icon={<RestoreIcon />} />
   <BottomNavigationAction label="Add Dish" icon={<FavoriteIcon />} href="/createdish" />

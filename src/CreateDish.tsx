@@ -18,6 +18,8 @@ import {
 import dayjs from 'dayjs';
 import { StorageManager, StorageImage } from '@aws-amplify/ui-react-storage';
 import '@aws-amplify/ui-react/styles.css';
+import Header from './components/Header'
+
 
 
 const client = generateClient<Schema>();
@@ -42,21 +44,12 @@ function CreateDish() {
     <Authenticator hideSignUp>
       {({ user }) => (
     <main>
-<Flex direction="column">
+
 <Flex
   direction="row">
-        <View width="4rem">
-            <Menu>
-                <MenuItem>{user?.username}</MenuItem>
-                <MenuItem>
-                    <Link to="/createdish">Create Dish</Link>                    
-                </MenuItem>
-                <MenuItem>Option 3</MenuItem>
-            </Menu>
-        </View>
-        <h1>MY DIET ASSISTANT</h1>
+        <Header/>
         </Flex>
-
+        <Flex direction="column" marginLeft="10%" marginRight="10%">
         <TextField id="dishname" label="dish name" variant="standard" />
         {!image &&
         
@@ -69,14 +62,14 @@ function CreateDish() {
         }}
         />
         }
-
+<Flex direction="row" marginLeft="20%" marginRight="20%">
         {image &&
         <StorageImage
             alt="protected image"
             path={() => `${image}`}
         />
         }
-
+</Flex>
 <TextField id="calories" label="calories" variant="standard" />
 <TextField id="description" label="description" variant="standard" multiline
           rows={4}/>

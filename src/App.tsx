@@ -12,6 +12,13 @@ import {
     Routes,
     Link
 } from "react-router-dom";
+import { BottomNavigation, BottomNavigationAction} from '@mui/material';
+import RestoreIcon from '@mui/icons-material/Restore';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import Header from './components/Header'
+
+
 
 
 const client = generateClient<Schema>();
@@ -44,17 +51,8 @@ function Home() {
     <main>
 <Flex
   direction="row">
-        <View width="4rem">
-            <Menu>
-                <MenuItem>{user?.username}</MenuItem>
-                <MenuItem>
-                    <Link to="/createdish">Create Dish</Link>                    
-                </MenuItem>
-                <MenuItem>Option 3</MenuItem>
-            </Menu>
-        </View>
-        <h1>MY DIET ASSISTANT</h1>
-        </Flex>
+      <Header />
+      </Flex>
 
         {user.userId}
         <button onClick={() => createTodo(user?.userId!)}>New Dish</button>
@@ -71,6 +69,7 @@ function Home() {
 }
 
 function App() {
+
     return(
     <Authenticator hideSignUp>
       {({ signOut }) => (
@@ -84,9 +83,17 @@ function App() {
     </Routes>
 </Router>
 
-<button onClick={signOut}>Sign out</button>
-
-
+<BottomNavigation
+  showLabels
+  value={"Recents"}
+  onChange={(event, newValue) => {
+    //setValue(newValue);
+  }}
+>
+  <BottomNavigationAction label="Profile" icon={<RestoreIcon />} />
+  <BottomNavigationAction label="Add Dish" icon={<FavoriteIcon />} href="/createdish" />
+  <BottomNavigationAction label="Sign Out" icon={<LocationOnIcon />} onClick={signOut}/>
+</BottomNavigation>
 </div>
 
       )}
